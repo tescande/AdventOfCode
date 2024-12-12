@@ -4,46 +4,17 @@
 import re
 import sys
 
-def evaluate(ops, target):
-	current_op = -1
-	res = ops[0]
+def calc(plates, target):
+	if len(plates) == 1:
+		return plates[0] == target
 
-	for i in range(1, len(ops) - 1, 2):
-		if i >= len(ops):
-			break
-		if ops[i] == '+':
-			res += ops[i+1]
-		elif ops[i] == '*':
-			res *= ops[i+1]
-		else:
-			print(f"Invalid op {ops[i]} at {i}")
+	if calc([plates[0] + plates[1]] + plates[2:], target):
+		return True
 
-		if res > target:
-			return False
-
-		if res == target:
-			return True
+	if calc([plates[0] * plates[1]] + plates[2:], target):
+		return True
 
 	return False
-
-def calc(plates, target):
-	ops = []
-	num_op = len(plates) - 1
-
-	for i in range(0, 1 << num_op):
-		ops.clear()
-		for j in range(0, num_op):
-			ops.append(plates[j])
-			if i & (1 << j):
-				ops.append('+')
-			else:
-				ops.append('*')
-		ops.append(plates[-1])
-
-		if evaluate(ops, target):
-			return target
-
-	return 0
 
 def main():
 	res = 0
@@ -58,7 +29,8 @@ def main():
 			target = int(m.group(1))
 			plates = list(map(int, m.group(2).split()))
 
-			res += calc(plates, target)
+			if calc(plates, target):
+				res += target
 
 	print(f"res: {res}")
 
