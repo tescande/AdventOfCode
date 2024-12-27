@@ -1,5 +1,6 @@
 #!/bin/env python
-# Solution is 40069
+# Solution part 1 is 40069
+# Solution part 2 is 71493195288102
 
 import re
 import sys
@@ -37,20 +38,24 @@ def main():
 	with open(file, 'r') as f:
 		machines = f.read().strip().split("\n\n")
 
-	res = 0
+	res_p1 = 0
+	res_p2 = 0
 	for m in machines:
 		lines = m.splitlines()
 		try:
 			button_a = parse_machine_line(lines[0], r"^Button A: X\+(\d+), Y\+(\d+)$")
 			button_b = parse_machine_line(lines[1], r"^Button B: X\+(\d+), Y\+(\d+)$")
-			prize = parse_machine_line(lines[2], r"^Prize: X=(\d+), Y=(\d+)$")
+			prize_p1 = parse_machine_line(lines[2], r"^Prize: X=(\d+), Y=(\d+)$")
+			prize_p2 = { 'x': prize_p1['x'] + 10000000000000, 'y': prize_p1['y'] + 10000000000000 }
 		except Exception as e:
 			print(e)
 			return 0
 
-		res += solve(button_a, button_b, prize)
+		res_p1 += solve(button_a, button_b, prize_p1)
+		res_p2 += solve(button_a, button_b, prize_p2)
 
-	print(f"Res: {res}")
+	print(f"Part 1: {res_p1}")
+	print(f"Part 2: {res_p2}")
 
 if __name__ == "__main__":
     exit(main())
