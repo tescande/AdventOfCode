@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-# Solution is 304
+# Solution part 1 is 304
+# Solution part 2 is 705756472327497
 
 from functools import cache
 import sys
@@ -23,12 +24,16 @@ def main():
 
 		return res
 
-	res = 0
+	res_p1 = 0
+	res_p2 = 0
 	for towel in towels.strip().split('\n'):
-		if match_count(towel):
-			res += 1
+		res = match_count(towel)
+		res_p2 += res
+		if res:
+			res_p1 += 1
 
-	print(f"Res: {res}")
+	print(f"Res part 1: {res_p1}")
+	print(f"Res part 2: {res_p2}")
 
 if __name__ == "__main__":
 	exit(main())
