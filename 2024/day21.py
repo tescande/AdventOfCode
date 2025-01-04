@@ -42,18 +42,11 @@ def get_moves_length(code, n_iter, max_iter):
 
 	for c in code:
 		key = keypad[c]
+
+		# Generate move key presses to go from 'pos' to 'key'
 		dr = key[0] - pos[0]
 		dc = key[1] - pos[1]
-
-		moves = ""
-		if dr < 0:
-			moves += '^' * abs(dr)
-		elif dr > 0:
-			moves += 'v' * abs(dr)
-		if dc < 0:
-			moves += '<' * abs(dc)
-		elif dc > 0:
-			moves += '>' * abs(dc)
+		moves = ('^' * -dr) + ('v' * dr) + ('<' * -dc) + ('>' * dc)
 
 		# Test the move and its reversed version (i.e. <<v and v<<)
 		# If one move goes through the keypad empty slot, its reversed won't.
