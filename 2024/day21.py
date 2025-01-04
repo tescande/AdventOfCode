@@ -1,6 +1,8 @@
 #!/bin/env python
-# Solution is 157892
+# Solution part 1 is 157892
+# Solution part 2 is 197015606336332
 
+from functools import cache
 from math import inf
 import sys
 
@@ -28,12 +30,14 @@ def check_path(keypad, start, moves):
 
 	return True
 
-def get_moves_length(keypad, code, n_iter):
+@cache
+def get_moves_length(code, n_iter, max_iter):
 	res = 0
 
-	if n_iter > 2:
+	if n_iter > max_iter:
 		return len(code)
 
+	keypad = dir_keypad if n_iter else num_keypad
 	pos = keypad['A']
 
 	for c in code:
@@ -58,7 +62,7 @@ def get_moves_length(keypad, code, n_iter):
 		min_length = inf
 		for m in [moves, moves[::-1]]:
 			if check_path(keypad, pos, list(m)):
-				l = get_moves_length(dir_keypad, m + 'A', n_iter + 1)
+				l = get_moves_length(m + 'A', n_iter + 1, max_iter)
 				min_length = min(min_length, l)
 
 		res += min_length
@@ -74,13 +78,19 @@ def main():
 		for line in f:
 			codes.append(line[:-1])
 
-	res = 0
+	res_p1 = 0
+	res_p2 = 0
 	for code in codes:
-		length = get_moves_length(num_keypad, code, 0)
+		length = get_moves_length(code, 0, 2)
 		# ~ print(f"{length} * {int(code[:-1])} = {length * int(code[:-1])}")
-		res += length * int(code[:-1])
+		res_p1 += length * int(code[:-1])
 
-	print(f"Res: {res}")
+		length = get_moves_length(code, 0, 25)
+		# ~ print(f"{length} * {int(code[:-1])} = {length * int(code[:-1])}")
+		res_p2 += length * int(code[:-1])
+
+	print(f"Res part 1: {res_p1}")
+	print(f"Res part 2: {res_p2}")
 
 if __name__ == "__main__":
     exit(main())
