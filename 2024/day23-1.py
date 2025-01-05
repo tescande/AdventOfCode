@@ -17,18 +17,14 @@ def main():
 	res = 0
 	seen = set()
 	for s1 in servers:
-		for s2 in servers[s1]:
-			for s3 in servers[s2]:
-				if s3 in servers[s1]:
-					t = tuple(sorted((s1, s2, s3)))
-					if t not in seen:
+		if s1.startswith('t'):
+			for s2 in servers[s1]:
+				for s3 in servers[s2]:
+					if s3 in servers[s1]:
+						t = tuple(sorted((s1, s2, s3)))
 						seen.add(t)
-						for s in t:
-							if s.startswith('t'):
-								res += 1
-								break
 
-	print(f"Res: {res}")
+	print(f"Res: {len(seen)}")
 
 if __name__ == "__main__":
     exit(main())
