@@ -51,7 +51,8 @@ def main():
 					robots[pos] = []
 				robots[pos].append(velocity)
 
-	for i in range(10000):
+	steps = 1
+	while True:
 		new_positions = {}
 		for p, vs in robots.items():
 			for v in vs:
@@ -62,9 +63,10 @@ def main():
 
 		if has_cluster(new_positions):
 			print_robots(new_positions, width, height)
-			print(f"Steps: {i+1}")
+			print(f"Steps: {steps}")
 			return 0
 
+		steps += 1
 		robots = new_positions
 
 if __name__ == "__main__":
