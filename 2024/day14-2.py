@@ -1,6 +1,7 @@
 #!/bin/env python
 # Solution is 215987200
 
+from collections import defaultdict
 import re
 import sys
 
@@ -53,12 +54,10 @@ def main():
 
 	steps = 1
 	while True:
-		new_positions = {}
+		new_positions = defaultdict(list)
 		for p, vs in robots.items():
 			for v in vs:
 				pos = move(p, v, 1, width, height)
-				if pos not in new_positions:
-					new_positions[pos] = []
 				new_positions[pos].append(v)
 
 		if has_cluster(new_positions):
